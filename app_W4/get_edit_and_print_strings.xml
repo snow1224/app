@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="my_name">王雪朱</string>
+    <string name="small">縮小</string>
+    <string name="large">放大</string>
+    <string name="birthday">出生年月日：</string>
+    <string name="tvIdName">姓名：</string>
+    <string name="ednameHint">請輸入姓名</string>
+    <string name="edbirthdayHint">請輸入生日</string>
+</resources>
