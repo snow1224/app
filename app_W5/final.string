@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ACTV</string>
+    <string-array name="location">
+        <item> Taipei </item>
+        <item> Taichung </item>
+        <item> Tainan </item>
+    </string-array>
+    <string name="tvName">姓名:</string>
+    <string name="tvBirthPlace">出生地:</string>
+    <string name="tvAge">年齡</string>
+    <string name="tvHobit">興趣</string>
+</resources>
