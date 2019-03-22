@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ACTV</string>
+    <string-array name="location">
+        <item> Taipei </item>
+        <item> Taichung </item>
+        <item> Tainan </item>
+    </string-array>
+</resources>
