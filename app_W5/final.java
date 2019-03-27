@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                         str=age41_100.getText().toString();
                         break;
                 }
-                str3=""+checkedId;
+                str3=""+str;
                 Toast.makeText(MainActivity.this, "Age:"+str, Toast.LENGTH_SHORT).show();
             }
         });
