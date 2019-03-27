@@ -50,34 +50,34 @@
         android:layout_below="@id/ll2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <TextView
-        android:layout_gravity="center_vertical"
-        android:textSize="20dp"
-        android:text="@string/tvAge"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
-    <RadioGroup
-        android:id="@+id/rgAge"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <RadioButton
-            android:id="@+id/age0_20"
-            android:text="0~20"
-            android:layout_weight="4"
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:textSize="20dp"
+            android:text="@string/tvAge"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <RadioGroup
+            android:id="@+id/rgAge"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <RadioButton
-            android:id="@+id/age21_40"
-            android:text="21~40"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <RadioButton
-            android:id="@+id/age41_100"
-            android:text="41~100"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </RadioGroup>
+            android:layout_height="match_parent">
+            <RadioButton
+                android:id="@+id/age0_20"
+                android:text="0~20"
+                android:layout_weight="4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <RadioButton
+                android:id="@+id/age21_40"
+                android:text="21~40"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <RadioButton
+                android:id="@+id/age41_100"
+                android:text="41~100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RadioGroup>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/ll4"
