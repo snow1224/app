@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     TextView result;
     Button btPrint;
     EditText etName;
-    int cbArr[] = {cbEat.getId(),cbSport.getId(),cbNovel.getId(),cbSing.getId()};
+//    int cbArr[] = {cbEat.getId(),cbSport.getId(),cbNovel.getId(),cbSing.getId()};
     String str1="",str2="",str3="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         result=(TextView)findViewById(R.id.tvResult);
         btPrint=(Button)findViewById(R.id.btIdprint);
         etName=(EditText)findViewById(R.id.etName);
-        
+
         btPrint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,10 +90,9 @@ public class MainActivity extends AppCompatActivity {
     }
     public void doCB(View v){
         CheckBox cbTemp;
-        for(int id:cbArr) {
-            cbTemp = (CheckBox) findViewById(id);
-            if(cbTemp.isChecked())
-                 str1 += cbTemp.getText().toString() + " ";
-        }
+        cbTemp = (CheckBox) findViewById(v.getId());
+        if(cbTemp.isChecked())
+            str1 += cbTemp.getText().toString() + " ";
+
     }
 }
