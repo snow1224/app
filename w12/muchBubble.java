@@ -39,6 +39,7 @@ public class MySurfaceview extends SurfaceView implements SurfaceHolder.Callback
         mPaintBackground = new Paint();
         mPaintBackground.setAntiAlias(true);
         mPaintBackground.setColor(Color.WHITE);
+        bubbles=new ArrayList<Bubble>();
 
     }
 
@@ -54,8 +55,9 @@ public class MySurfaceview extends SurfaceView implements SurfaceHolder.Callback
         super.draw(canvas);
         Log.v("cclo","draw");
         canvas.drawRect(0,0,getWidth(),getHeight(),mPaintBackground);
-        for(int i=0;i<bubbles.size();i++)
-            canvas.drawBitmap(bubble,bubbles.get(i).x,bubbles.get(i).y,new Paint());
+        for(int i=0;i<bubbles.size();i++) {
+            canvas.drawBitmap(bubble, bubbles.get(i).x, bubbles.get(i).y, new Paint());
+        }
     }
 
     public void changeBubble(){
@@ -87,19 +89,19 @@ public class MySurfaceview extends SurfaceView implements SurfaceHolder.Callback
         Log.v("cclo","run");
         while(running) {
 //            if(fly) {
-                try {
+            try {
 //                    c = surfaceholder.lockCanvas();
 //                    synchronized (surfaceholder) {
-                        draw(c);
+                draw(c);
 //                    }
-                } catch (Exception e) {
+            } catch (Exception e) {
 
-                } finally {
+            } finally {
 //                    if (c != null) {
 //                        surfaceholder.unlockCanvasAndPost(c);
 //                    }
-                }
-                changeBubble();
+            }
+            changeBubble();
 //            }
         }
     }
@@ -108,9 +110,9 @@ public class MySurfaceview extends SurfaceView implements SurfaceHolder.Callback
     public boolean onTouchEvent(MotionEvent event) {
 //        if(!fly){
 //            fly=true;
-            bX=event.getX();
-            bY=event.getY();
-            bubbles.add(new Bubble(bX,bY));
+        bX=event.getX();
+        bY=event.getY();
+        bubbles.add(new Bubble(bX,bY));
 //        }
         return true;
     }
@@ -137,4 +139,3 @@ public class MySurfaceview extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 }
-
