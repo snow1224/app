@@ -63,7 +63,7 @@ public class MySurfaceview extends SurfaceView implements SurfaceHolder.Callback
     public void changeBubble(){
         for(int i=0;i<bubbles.size();i++) {
 
-            bubbles.set(i,new Bubble(bubbles.get(i).x,bubbles.get(i).y-=50.0f));
+            bubbles.set(i,new Bubble(bubbles.get(i).x,bubbles.get(i).y-50.0f));
             if (bubbles.get(i).y <= 20.0f) {
                 fly = false;
                 Canvas c = null;
