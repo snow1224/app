@@ -1,0 +1,110 @@
+package com.example.user.sqlite2;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+public class MainActivity extends AppCompatActivity {
+
+    Button btInsert,btQuery,btCTab,btDelTab;
+    EditText etName,etPhone,etEmail;
+    MyOpenHelpers openHelpers;
+    String DATABASE_NAME="friend.db";
+    String TABLE_NAME="friend_table";
+    public static SQLiteDatabase database;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        btInsert = (Button) findViewById(R.id.btInsert);
+        btQuery = (Button) findViewById(R.id.btQuery);
+        btCTab = (Button) findViewById(R.id.btCreateTab);
+        btDelTab = (Button) findViewById(R.id.btDelTab);
+        etName = (EditText) findViewById(R.id.etName);
+        etPhone = (EditText) findViewById(R.id.etPhone);
+        etEmail = (EditText) findViewById(R.id.etEmail);
+
+//        openHelpers = new MyOpenHelpers(this,DATABASE_NAME,null,1);
+        getDatabase(this);
+
+        btCTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(database.isOpen()){
+                    database.execSQL("create table if not exists friend_table(name TEXT,phone_no TEXT,email TEXT);");
+                }
+            }
+        });
+        btInsert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String iName,iPhone,iEmail;
+                iName=etName.getText().toString();
+                iPhone=etPhone.getText().toString();
+                iEmail=etEmail.getText().toString();
+                insert(iName,iPhone,iEmail);
+            }
+        });
+        btQuery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String iName=etName.getText().toString();
+                Cursor c = database.query(TABLE_NAME,null,"name ='"+iName+"'",null,null,null,null);
+                if(c.getCount()>0){
+                    c.moveToFirst();
+                    etPhone.setText(c.getString(1));
+                    etEmail.setText(c.getString(2));
+                }
+            }
+        });
+        btDelTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(database.isOpen()){
+                    database.execSQL("drop table if exists friend_table");
+                }
+            }
+        });
+
+    }
+
+    private void getDatabase(Context context) {
+        if(database == null || !database.isOpen()){
+            database = new MyOpenHelpers(this,DATABASE_NAME,null,1).getWritableDatabase();
+        }
+    }
+
+    public void insert(String name_,String phone_,String email_){
+        ContentValues cv = new ContentValues();
+        cv.put("name",name_);
+        cv.put("phone_no",phone_);
+        cv.put("email",email_);
+        database.insert(TABLE_NAME,null,cv);
+    }
+
+    public class MyOpenHelpers extends SQLiteOpenHelper{
+
+        public MyOpenHelpers(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+            super(context, name, factory, version);
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        }
+    }
+
+}
