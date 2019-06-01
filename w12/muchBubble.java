@@ -1,4 +1,4 @@
-package com.example.user.myapplication;
+package e.use.block;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,10 +6,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.WindowManager;
 
 import java.util.ArrayList;
 
@@ -17,8 +19,7 @@ import java.util.ArrayList;
  * Created by user on 2019/5/10.
  */
 
-public class MySurfaceview extends SurfaceView implements SurfaceHolder.Callback,Runnable {
-
+public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
     SurfaceHolder surfaceholder;
     Thread thread;
     Bitmap bubble;
@@ -27,9 +28,9 @@ public class MySurfaceview extends SurfaceView implements SurfaceHolder.Callback
     float bX=0,bY=0;
     ArrayList<Bubble> bubbles;
     Paint mPaintBackground;
-    public MySurfaceview(Context context) {
+    public MySurfaceView(Context context) {
         super(context);
-
+        bubbles=new ArrayList<Bubble>();
         setZOrderOnTop(true);
         bubble = BitmapFactory.decodeResource(getResources(),R.drawable.bubble2);
         surfaceholder=getHolder();
@@ -39,7 +40,6 @@ public class MySurfaceview extends SurfaceView implements SurfaceHolder.Callback
         mPaintBackground = new Paint();
         mPaintBackground.setAntiAlias(true);
         mPaintBackground.setColor(Color.WHITE);
-        bubbles=new ArrayList<Bubble>();
 
     }
 
@@ -55,32 +55,43 @@ public class MySurfaceview extends SurfaceView implements SurfaceHolder.Callback
         super.draw(canvas);
         Log.v("cclo","draw");
         canvas.drawRect(0,0,getWidth(),getHeight(),mPaintBackground);
-        for(int i=0;i<bubbles.size();i++) {
-            canvas.drawBitmap(bubble, bubbles.get(i).x, bubbles.get(i).y, new Paint());
+
+        for(int j=0;j<bubbles.size();j++){
+            canvas.drawBitmap(bubble,bubbles.get(j).x,bubbles.get(j).y,new Paint());
         }
     }
 
-    public void changeBubble(){
+    public void changeBubble(float sX){
+        bY-=50.0f;
+        if(bX>=750){
+            Log.v("cclo","height:"+getHeight()+" current:"+bX);
+            sX=-20.0f;
+        }else if(bX<=70){
+            sX=10.0f;
+        }
+        bX+=sX;
         for(int i=0;i<bubbles.size();i++) {
 
-            bubbles.set(i,new Bubble(bubbles.get(i).x,bubbles.get(i).y-50.0f));
-            if (bubbles.get(i).y <= 20.0f) {
-                fly = false;
+            bubbles.set(i,new Bubble(bubbles.get(i).x,bubbles.get(i).y-50.0f,true));
+            if (bubbles.get(i).y <= 10.0f) {
+                bubbles.set(i,new Bubble(bubbles.get(i).x,bubbles.get(i).y,false));
+                bubbles.remove(i);
                 Canvas c = null;
                 try {
-//                c=surfaceholder.lockCanvas();
-//                synchronized (surfaceholder){
+                c=surfaceholder.lockCanvas();
+                synchronized (surfaceholder){
                     draw(c);
-//                }
+                }
                 } catch (Exception e) {
 
                 } finally {
-//                    if (c != null) {
-//                    surfaceholder.unlockCanvasAndPost(c);
-//                    }
+                    if (c != null) {
+                    surfaceholder.unlockCanvasAndPost(c);
+                    }
                 }
             }
         }
+
     }
 
     @Override
@@ -88,32 +99,34 @@ public class MySurfaceview extends SurfaceView implements SurfaceHolder.Callback
         Canvas c=null;
         Log.v("cclo","run");
         while(running) {
-//            if(fly) {
-            try {
-//                    c = surfaceholder.lockCanvas();
-//                    synchronized (surfaceholder) {
-                draw(c);
-//                    }
-            } catch (Exception e) {
+            for(int i=0;i<bubbles.size();i++){
+                if(bubbles.get(i).fly) {
+                    float sX = 10.0f;
+                    try {
+                        c = surfaceholder.lockCanvas();
+                        synchronized (surfaceholder) {
+                            draw(c);
+                        }
+                    } catch (Exception e) {
 
-            } finally {
-//                    if (c != null) {
-//                        surfaceholder.unlockCanvasAndPost(c);
-//                    }
+                    } finally {
+                        if (c != null) {
+                            surfaceholder.unlockCanvasAndPost(c);
+                        }
+                    }
+                    changeBubble(sX);
+                }
             }
-            changeBubble();
-//            }
         }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-//        if(!fly){
-//            fly=true;
-        bX=event.getX();
-        bY=event.getY();
-        bubbles.add(new Bubble(bX,bY));
-//        }
+
+            bX=event.getX();
+            bY=event.getY();
+            bubbles.add(new Bubble(bX,bY,true));
+
         return true;
     }
 
@@ -133,9 +146,9 @@ public class MySurfaceview extends SurfaceView implements SurfaceHolder.Callback
     }
     class Bubble{
         float x,y;
-        boolean fly=false;
-        Bubble(float x,float y){
-            x=0;y=0;
+        boolean fly;
+        Bubble(float x,float y,boolean fly){
+            this.x=x;this.y=y;this.fly=fly;
         }
     }
 }
